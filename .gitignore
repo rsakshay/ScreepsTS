@@ -1,6 +1,6 @@
 # exclude everything
-# /ScreepsVSSol/*
+/ScreepsVSSol/*
 
 # exception to that
-# !/ScreepsVSSol/src/
-# !/ScreepsVSSol/.vscode
+!/ScreepsVSSol/src/
+!/ScreepsVSSol/.vscode
