@@ -1,0 +1,24 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "boundary",
+  "files.encoding": "utf8",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "search.exclude": {
+    "ScreepsVSSol/dist/**": true,
+    "ScreepsVSSol/node_modules/**": true,
+    "ScreepsVSSol/typings/**": true,
+  },
+  "typescript.tsdk": "./ScreepsVSSol/node_modules/typescript/lib",
+  "standard.enable": false,
+
+  "macros":
+  {
+    "saveAndCommit":
+    [
+        "workbench.action.files.saveAll",
+        { "command": "workbench.action.tasks.runTask", "args": "screepsCommit" }
+    ]
+  }
+}
