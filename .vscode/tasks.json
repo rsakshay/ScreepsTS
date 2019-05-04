@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "npm run local",
             "options": {
-                "cwd": "${workspaceRoot}/ScreepsVSSol"
+                "cwd": "${workspaceRoot}/TypeScreeps"
             }
         }
     ]
