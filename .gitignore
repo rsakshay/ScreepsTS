@@ -1,6 +1,5 @@
 # exclude everything
-/ScreepsVSSol/*
+TypeScreeps/*
 
 # exception to that
-!/ScreepsVSSol/src/
-!/ScreepsVSSol/.vscode
+!TypeScreeps/src

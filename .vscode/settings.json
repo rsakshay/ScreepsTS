@@ -6,11 +6,11 @@
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "search.exclude": {
-    "ScreepsVSSol/dist/**": true,
-    "ScreepsVSSol/node_modules/**": true,
-    "ScreepsVSSol/typings/**": true,
+    "TypeScreeps/dist/**": true,
+    "TypeScreeps/node_modules/**": true,
+    "TypeScreeps/typings/**": true,
   },
-  "typescript.tsdk": "./ScreepsVSSol/node_modules/typescript/lib",
+  "typescript.tsdk": "./TypeScreeps/node_modules/typescript/lib",
   "standard.enable": false,
 
   "macros":
