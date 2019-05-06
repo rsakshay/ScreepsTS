@@ -33,7 +33,8 @@ module.exports = {
     // Harvests the nearest source by path
     harvestEnergy:function(creep)
     {
-        var source = Game.spawns["Spawn1"].pos.findClosestByPath(FIND_SOURCES);
+        // var source = Game.spawns["Spawn1"].pos.findClosestByPath(FIND_SOURCES);
+        var source = Game.spawns["Spawn1"].pos.findClosestByRange(FIND_SOURCES);
         if(creep.harvest(source) == ERR_NOT_IN_RANGE)
         {
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});

@@ -1,15 +1,16 @@
-var roleHarvester = require('role.harvester');
-var roleUpgrader  = require('role.upgrader' );
-var roleBuilder   = require('role.builder'  );
-var memoryManager = require("memoryManager" );
-var spawnManager  = require("spawnManager"  );
+var roleHarvester   = require('role.harvester' );
+var roleUpgrader    = require('role.upgrader'  );
+var roleBuilder     = require('role.builder'   );
+var memoryManager   = require("memoryManager"  );
+var spawnManager    = require("spawnManager"   );
+var buildingManager = require("buildingManager");
 
 export const loop = function ()
 {
     //**************************************************
     // Global Variables
-    var totalDesiredHarvesters    = 3;
-    var totalDesiredBuilders      = 2;
+    var totalDesiredHarvesters    = 1;
+    var totalDesiredBuilders      = 3;
     var totalDesiredUpgraders     = 2;
 
     //**************************************************
@@ -36,6 +37,11 @@ export const loop = function ()
     */
 
     //**************************************************
+    // Manage Buildings
+    buildingManager.createRoadsFromSpawnToController();
+
+
+    //**************************************************
     // Auto spawn Creeps
     var harvesters    = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester'   );
     var builders      = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'     );
@@ -58,12 +64,12 @@ export const loop = function ()
         spawnManager.spawnUnit("Harvester");
     }
 
-    if(builders.length < totalDesiredBuilders && harvesters.length == totalDesiredHarvesters)
+    if(builders.length < totalDesiredBuilders && harvesters.length >= totalDesiredHarvesters)
     {
         spawnManager.spawnUnit("Builder");
     }
 
-    if(upgraders.length < totalDesiredUpgraders && harvesters.length == totalDesiredHarvesters && builders.length == totalDesiredBuilders)
+    if(upgraders.length < totalDesiredUpgraders && harvesters.length >= totalDesiredHarvesters && builders.length >= totalDesiredBuilders)
     {
         spawnManager.spawnUnit("Upgrader");
     }
