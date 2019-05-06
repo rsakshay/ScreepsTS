@@ -93,7 +93,7 @@ module.exports = {
 
         // Fix case in which you cannot spawn higher level creeps
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' );
-        if( harvesters.length < 1 && spawnManager.getTotalCurrentEnergy < harvesterTemplates[1])
+        if( harvesters.length < 1 && spawnManager.getTotalCurrentEnergy < harvesterTemplates[1].requiredEnergy)
         {
             currentTemplate = harvesterTemplates[0];
         }
@@ -199,16 +199,19 @@ module.exports = {
             let currentStructure: Structure = Game.structures[i];
             currentStructure;
             let currentStructureType: string = Game.structures[i].structureType;
-            switch( currentStructureType )
+            if(currentStructure.isActive())
             {
-                case STRUCTURE_SPAWN:
-                    totalEnergyCapacity += (<StructureSpawn>(Game.getObjectById(currentStructure.id))).energyCapacity;
-                    break;
-                case STRUCTURE_EXTENSION:
-                    totalEnergyCapacity += (<StructureExtension>(Game.getObjectById(currentStructure.id))).energyCapacity;
-                    break;
-                default:
-                    break;
+                switch( currentStructureType )
+                {
+                    case STRUCTURE_SPAWN:
+                        totalEnergyCapacity += (<StructureSpawn>(Game.getObjectById(currentStructure.id))).energyCapacity;
+                        break;
+                    case STRUCTURE_EXTENSION:
+                        totalEnergyCapacity += (<StructureExtension>(Game.getObjectById(currentStructure.id))).energyCapacity;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         return totalEnergyCapacity;
@@ -222,16 +225,19 @@ module.exports = {
             // there has GOT to be a better way of doing this
             let currentStructure: Structure = Game.structures[i];
             let currentStructureType: string = Game.structures[i].structureType;
-            switch( currentStructureType )
+            if(currentStructure.isActive())
             {
-                case STRUCTURE_SPAWN:
-                    totalCurrentEnergy += (<StructureSpawn>(Game.getObjectById(currentStructure.id))).energy;
-                    break;
-                case STRUCTURE_EXTENSION:
-                    totalCurrentEnergy += (<StructureExtension>(Game.getObjectById(currentStructure.id))).energy;
-                    break;
-                default:
-                    break;
+                switch( currentStructureType )
+                {
+                    case STRUCTURE_SPAWN:
+                        totalCurrentEnergy += (<StructureSpawn>(Game.getObjectById(currentStructure.id))).energy;
+                        break;
+                    case STRUCTURE_EXTENSION:
+                        totalCurrentEnergy += (<StructureExtension>(Game.getObjectById(currentStructure.id))).energy;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         return totalCurrentEnergy;
