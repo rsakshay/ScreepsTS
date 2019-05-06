@@ -93,12 +93,16 @@ module.exports = {
 
         // Fix case in which you cannot spawn higher level creeps
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' );
-        if( harvesters.length < 1 && spawnManager.getTotalCurrentEnergy < harvesterTemplates[1].requiredEnergy)
+        if( harvesters.length < 1 )
+        //if( harvesters.length < 1 && spawnManager.getTotalCurrentEnergy < harvesterTemplates[1].requiredEnergy) TODO: fix this shit
         {
             currentTemplate = harvesterTemplates[0];
         }
 
-        console.log("Chosen Harvester Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        if(Memory.spawningInfo == true)
+        {
+            console.log("Chosen Harvester Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        }
 
         if(spawnManager.getTotalCurrentEnergy() >= currentTemplate.requiredEnergy)
         {
@@ -114,7 +118,10 @@ module.exports = {
                 console.log('Spawning new harvester: ' + newName);
             }
         }
-        else console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
+        else if(Memory.spawningInfo == true)
+        {
+            console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
+        }
 
     },
 
@@ -133,7 +140,10 @@ module.exports = {
             else break;
         }
 
+        if(Memory.spawningInfo == true)
+        {
         console.log("Chosen Builder Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        }
 
         if(spawnManager.getTotalCurrentEnergy() >= currentTemplate.requiredEnergy)
         {
@@ -149,8 +159,10 @@ module.exports = {
                 console.log('Spawning new builder: ' + newName);
             }
         }
-        else console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
-
+        else if(Memory.spawningInfo == true)
+        {
+            console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
+        }
     },
 
     spawnUpgrader: function()
@@ -168,7 +180,10 @@ module.exports = {
             else break;
         }
 
-        console.log("Chosen Upgrader Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        if(Memory.spawningInfo == true)
+        {
+            console.log("Chosen Upgrader Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        }
 
         if(spawnManager.getTotalCurrentEnergy() >= currentTemplate.requiredEnergy)
         {
@@ -184,8 +199,10 @@ module.exports = {
                 console.log('Spawning new upgrader: ' + newName);
             }
         }
-        else console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
-
+        else if(Memory.spawningInfo == true)
+        {
+            console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
+        }
     },
 
     //**************************************************

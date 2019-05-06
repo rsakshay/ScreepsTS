@@ -7,16 +7,46 @@
 * mod.thing == 'a thing'; // true
 */
 
+
 module.exports = {
+
+    updateBuildings: function()
+    {
+        var buildingManager = require("buildingManager");
+
+        if(Memory.shouldBuildRoads = true)
+        {
+            buildingManager.createRoadsFromSpawnToController();
+        }
+    },
+
     createRoadsFromSpawnToController: function()
     {
+        let spawns = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_SPAWN );
 
-        for(var i in Game.structures)
+        for(var i in spawns)
         {
-            let origin = Game.structures[i].pos;
-            let goal = Game.structures[i].room.controller.pos;
+            let origin = spawns[i].pos;
+            let goal = spawns[i].room.controller.pos;
             PathFinder.search(origin, goal).path.forEach(pos=>pos.createConstructionSite(STRUCTURE_ROAD));
+            Memory.shouldBuildRoads = false;
         }
 
+        return;
+    },
+
+    getBuildingsHaveChanged: function()
+    {
+        let previousTickStructures = Game.structures;
+        let currentTickStructures  = Game.structures;
+
+        if(previousTickStructures == currentTickStructures)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 };

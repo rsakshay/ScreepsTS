@@ -4,14 +4,27 @@ var roleBuilder     = require('role.builder'   );
 var memoryManager   = require("memoryManager"  );
 var spawnManager    = require("spawnManager"   );
 var buildingManager = require("buildingManager");
+var gameInitializer = require("gameInitializer");
+
+var isInitialized: boolean = false;
 
 export const loop = function ()
 {
     //**************************************************
     // Global Variables
-    var totalDesiredHarvesters    = 1;
-    var totalDesiredBuilders      = 3;
+    var totalDesiredHarvesters    = 2;
+    var totalDesiredBuilders      = 2;
     var totalDesiredUpgraders     = 2;
+
+
+
+    //**************************************************
+    // Initialize Game
+    if(!isInitialized)
+    {
+        gameInitializer.initializeGame();
+        isInitialized = true;
+    }
 
     //**************************************************
     memoryManager.clearDeadCreepFromMemory();
@@ -38,7 +51,7 @@ export const loop = function ()
 
     //**************************************************
     // Manage Buildings
-    buildingManager.createRoadsFromSpawnToController();
+    buildingManager.updateBuildings();
 
 
     //**************************************************
