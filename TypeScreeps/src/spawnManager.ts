@@ -93,7 +93,7 @@ module.exports = {
 
         // Fix case in which you cannot spawn higher level creeps
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' );
-        if( harvesters.length < 1 )
+        if( harvesters.length < 1 && spawnManager.getTotalCurrentEnergy < harvesterTemplates[1])
         {
             currentTemplate = harvesterTemplates[0];
         }
