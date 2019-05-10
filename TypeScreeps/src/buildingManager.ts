@@ -19,6 +19,13 @@ module.exports = {
         {
             buildingManager.buildRoadsBetweenBuildings("spawn", "controller");
             buildingManager.buildRoadsBetweenBuildings("spawn", "extension");
+
+            let spawns: Structure[] = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_SPAWN);
+            for(var i in spawns)
+            {
+                buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 2);
+            }
+
             Memory.shouldBuildRoads = false;
         }
     },
@@ -78,6 +85,30 @@ module.exports = {
             }
         }
         return;
+    },
+
+    buildRoadsAroundLocation: function(room: Room, centerPosition: RoomPosition, radius: number)
+    {
+        let xSize: number = radius;
+        let ySize: number = radius;
+
+        let xMinOffset: number = xSize * -1;
+        let xMaxOffset: number = xSize;
+        let yMinOffset: number = ySize * -1;
+        let yMaxOffset: number = ySize;
+        let xRange: number[] = _.range(xMinOffset, xMaxOffset + 1);
+        let yRange: number[] = _.range(yMinOffset, yMaxOffset + 1);
+
+        for(var j in xRange)
+        {
+            for(var k in yRange)
+            {
+                let constructPos: RoomPosition = new RoomPosition(centerPosition.x, centerPosition.y, room.name);
+                constructPos.x = centerPosition.x + xRange[j];
+                constructPos.y = centerPosition.y + yRange[k];
+                constructPos.createConstructionSite(STRUCTURE_ROAD);
+            }
+        }
     },
 
     getBuildingsHaveChanged: function()
