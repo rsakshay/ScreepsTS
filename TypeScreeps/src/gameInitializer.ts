@@ -13,5 +13,6 @@ module.exports = {
     initializeGame: function()
     {
         Memory.spawningInfo = false;
+        Memory.structures = Game.structures;
     }
 };
