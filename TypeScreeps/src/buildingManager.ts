@@ -17,16 +17,22 @@ module.exports = {
 
         if(Memory.shouldBuildRoads == true)
         {
-            buildingManager.buildRoadsBetweenBuildings("spawn", "controller");
-            buildingManager.buildRoadsBetweenBuildings("spawn", "extension");
-
-            let spawns: Structure[] = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_SPAWN);
-            for(var i in spawns)
-            {
-                buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 2);
-            }
-
+            buildingManager.buildRoads();
             Memory.shouldBuildRoads = false;
+        }
+
+    },
+
+    buildRoads: function()
+    {
+        var buildingManager = require("buildingManager");
+        buildingManager.buildRoadsBetweenBuildings("spawn", "controller");
+        buildingManager.buildRoadsBetweenBuildings("spawn", "extension");
+
+        let spawns: Structure[] = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_SPAWN);
+        for(var i in spawns)
+        {
+            buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 2);
         }
     },
 
@@ -165,5 +171,5 @@ module.exports = {
             // console.log("Buildings are the same.");
             return false;
         }
-    }
+    },
 };
