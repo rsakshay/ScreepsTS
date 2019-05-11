@@ -53,6 +53,19 @@ export const loop = function ()
     // Manage Buildings
     buildingManager.updateBuildings();
 
+    let spawns = Game.spawns;
+    for(var i in spawns)
+    {
+        for(var j in Game.creeps)
+        {
+            if(Game.creeps[j].memory.renewing)
+            {
+                (<StructureSpawn>spawns[i]).renewCreep(Game.creeps[j]);
+            }
+        }
+
+    }
+
 
     //**************************************************
     // Auto spawn Creeps
@@ -65,12 +78,6 @@ export const loop = function ()
 
     //var extensions = _.filter(Game.structures, (Structure) => Structure.structureType == "STRUCTURE+EXTENSION" );
     //var extensions = Game.structures;
-
-    for(var i in Game.structures.length)
-    {
-        console.log( Game.structures[i] );
-    }
-
 
     if(harvesters.length < totalDesiredHarvesters)
     {
@@ -100,7 +107,7 @@ export const loop = function ()
     // Assign roles
     for(var name in Game.creeps)
     {
-        var creep = Game.creeps[name];
+        let creep: Creep = Game.creeps[name];
         if(creep.memory.role == 'harvester')
         {
             roleHarvester.run(creep);

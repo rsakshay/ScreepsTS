@@ -7,7 +7,6 @@
  * mod.thing == 'a thing'; // true
  */
 
-
 module.exports = {
 
     // Returns held energy to a spawn, extension, or tower
@@ -50,6 +49,18 @@ module.exports = {
             {
                 creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
             }
+        }
+    },
+
+    awaitRenewing: function(creep: Creep, desiredTicks: number)
+    {
+        let spawn: StructureSpawn = creep.pos.findClosestByRange(FIND_MY_SPAWNS);
+
+        creep.moveTo(spawn,  {visualizePathStyle: {stroke: '#ffffff'}} );
+
+        if(creep.ticksToLive >= desiredTicks)
+        {
+            return true;
         }
     }
 };

@@ -32,7 +32,7 @@ module.exports = {
         let spawns: Structure[] = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_SPAWN);
         for(var i in spawns)
         {
-            buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 2);
+            buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 1);
         }
     },
 

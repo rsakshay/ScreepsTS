@@ -1,7 +1,7 @@
 var roleBuilder = {
 
     /** @param {Creep} creep **/
-    run: function(creep)
+    run: function(creep: Creep)
     {
         var creepTasks = require("creepTasks");
 
@@ -24,8 +24,21 @@ var roleBuilder = {
             creep.say('🚧 build');
         }
 
+        if(!creep.memory.renewing && creep.ticksToLive < 100)
+        {
+            creep.memory.renewing = true;
+            creep.say("⚕️ renew");
+        }
+
         // Behavior
-        if(creep.memory.building)
+        if(creep.memory.renewing)
+        {
+            if(creepTasks.awaitRenewing(creep, 250))
+            {
+                creep.memory.renewing = false;
+            }
+        }
+        else if(creep.memory.building)
         {
             creepTasks.buildNearestConstructionSite(creep);
 

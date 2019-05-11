@@ -17,7 +17,21 @@ var roleUpgrader = {
 	        creep.say('⚡ upgrade');
 	    }
 
-	    if(creep.memory.upgrading)
+        if(!creep.memory.renewing && creep.ticksToLive < 100)
+        {
+            creep.memory.renewing = true;
+            creep.say("⚕️ renew");
+        }
+
+        // Behavior
+        if(creep.memory.renewing)
+        {
+            if(creepTasks.awaitRenewing(creep, 250))
+            {
+                creep.memory.renewing = false;
+            }
+        }
+        else if(creep.memory.upgrading)
 	    {
             if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE)
             {
