@@ -48,7 +48,7 @@ var roleRepairer = {
 
     getBuildingsBelowPercentHealth: function(percentThreshold: number)
     {
-        let structures: Structure[] = Game.spawns["Spawn1"].room.find(FIND_MY_STRUCTURES);
+        let structures: Structure[] = Game.spawns["Spawn1"].room.find(FIND_STRUCTURES);
         let structuresBelowThreshold: Structure[] = [];
         for(var i in structures)
         {
