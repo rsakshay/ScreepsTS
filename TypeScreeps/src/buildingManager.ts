@@ -34,6 +34,12 @@ module.exports = {
         {
             buildingManager.buildRoadsAroundLocation(spawns[i].room, spawns[i].pos, 1);
         }
+
+        let extensions: Structure[] = _.filter(Game.structures, (structure) => structure.structureType == STRUCTURE_EXTENSION);
+        for(var i in extensions)
+        {
+            buildingManager.buildRoadsAroundLocation(extensions[i].room, extensions[i].pos, 1);
+        }
     },
 
     buildRoadsBetweenBuildings: function(originBuilding: string, destinationBuilding: string)
