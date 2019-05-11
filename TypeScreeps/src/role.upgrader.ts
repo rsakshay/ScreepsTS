@@ -17,7 +17,7 @@ var roleUpgrader = {
 	        creep.say('⚡ upgrade');
 	    }
 
-        if(!creep.memory.renewing && creep.ticksToLive < 100)
+        if(!creep.memory.renewing && creep.ticksToLive < 25)
         {
             creep.memory.renewing = true;
             creep.say("⚕️ renew");

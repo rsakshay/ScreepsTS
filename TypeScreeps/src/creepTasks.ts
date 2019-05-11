@@ -33,7 +33,13 @@ module.exports = {
     harvestEnergy:function(creep)
     {
         // var source = Game.spawns["Spawn1"].pos.findClosestByPath(FIND_SOURCES);
-        var source = Game.spawns["Spawn1"].pos.findClosestByRange(FIND_SOURCES);
+        let source: Source;
+        if(creep.memory.source)
+        {
+             source = Game.getObjectById(creep.memory.source);
+        }
+        else source = Game.spawns["Spawn1"].pos.findClosestByRange(FIND_SOURCES);
+
         if(creep.harvest(source) == ERR_NOT_IN_RANGE)
         {
             creep.moveTo(source, {visualizePathStyle: {stroke: '#ffaa00'}});
@@ -50,6 +56,15 @@ module.exports = {
                 creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
             }
         }
+    },
+
+    repairStructure: function(creep: Creep, structure: Structure)
+    {
+        if(creep.repair(structure) == ERR_NOT_IN_RANGE)
+        {
+            creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffffff'}});
+        }
+
     },
 
     awaitRenewing: function(creep: Creep, desiredTicks: number)

@@ -42,6 +42,17 @@ var builderTemplates: unitTemplate[] =
     t3BuilderTemplate
 ];
 
+let t1RepairerTemplate = new unitTemplate("t1Repairer", [WORK,MOVE,CARRY], 200);
+let t2RepairerTemplate = new unitTemplate("t2Repairer", [WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], 550);
+let t3RepairerTemplate = new unitTemplate("t3Repairer", [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], 800);
+
+var repairerTemplates: unitTemplate[] =
+[
+    t1RepairerTemplate,
+    t2RepairerTemplate,
+    t3RepairerTemplate
+];
+
 let t1UpgraderTemplate = new unitTemplate("t1Upgrader", [WORK,MOVE,CARRY], 200);
 let t2UpgraderTemplate = new unitTemplate("t2Upgrader", [WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], 550);
 let t3UpgraderTemplate = new unitTemplate("t3Upgrader", [WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], 800);
@@ -65,6 +76,9 @@ module.exports = {
                 break;
             case "Builder":
                 spawnManager.spawnBuilder();
+                break;
+            case "Repairer":
+                spawnManager.spawnRepairer();
                 break;
             case "Upgrader":
                 spawnManager.spawnUpgrader();
@@ -108,11 +122,12 @@ module.exports = {
         {
             // Spawn Harvester based on chosen template
             let newName: string = currentTemplate.name + Game.time;
+            let sourceID: string = spawnManager.getIdealSourceID();
             if( Game.spawns['Spawn1'].spawnCreep(
                 currentTemplate.body,
                 newName,
                 {
-                    memory: {role: 'harvester'}
+                    memory: {role: 'harvester', source: sourceID}
                 }) == OK )
             {
                 console.log('Spawning new harvester: ' + newName);
@@ -149,14 +164,56 @@ module.exports = {
         {
             // Spawn Builder based on chosen template
             let newName: string = currentTemplate.name + Game.time;
+            let sourceID: string = spawnManager.getIdealSourceID();
             if( Game.spawns['Spawn1'].spawnCreep(
                 currentTemplate.body,
                 newName,
                 {
-                    memory: {role: 'builder'}
+                    memory: {role: 'builder', source: sourceID}
                 }) == OK )
             {
                 console.log('Spawning new builder: ' + newName);
+            }
+        }
+        else if(Memory.spawningInfo == true)
+        {
+            console.log("Insufficient energy to spawn " + currentTemplate.name + ". Needed " + currentTemplate.requiredEnergy + " energy, but only had " + spawnManager.getTotalCurrentEnergy() + " total energy.");
+        }
+    },
+
+    spawnRepairer: function()
+    {
+        var spawnManager = require("spawnManager");
+
+        // Choose current template
+        let currentTemplate: unitTemplate = repairerTemplates[0];
+        for( let i in repairerTemplates)
+        {
+            if( spawnManager.getTotalEnergyCapacity() >=  repairerTemplates[i].requiredEnergy )
+            {
+                currentTemplate = repairerTemplates[i]
+            }
+            else break;
+        }
+
+        if(Memory.spawningInfo == true)
+        {
+        console.log("Chosen Repairer Template: " + currentTemplate.name + " [" + currentTemplate.body + "] (" + currentTemplate.requiredEnergy + ")");
+        }
+
+        if(spawnManager.getTotalCurrentEnergy() >= currentTemplate.requiredEnergy)
+        {
+            // Spawn Repairer based on chosen template
+            let newName: string = currentTemplate.name + Game.time;
+            let sourceID: string = spawnManager.getIdealSourceID();
+            if( Game.spawns['Spawn1'].spawnCreep(
+                currentTemplate.body,
+                newName,
+                {
+                    memory: {role: 'repairer', source: sourceID}
+                }) == OK )
+            {
+                console.log('Spawning new repairer: ' + newName);
             }
         }
         else if(Memory.spawningInfo == true)
@@ -258,5 +315,14 @@ module.exports = {
             }
         }
         return totalCurrentEnergy;
+    },
+
+    // This function needs a lot of work. It should get the closest source per spawn, determine how many open spots are by it, and how many creeps are currently harvesting each
+    // It should fill up the closest source's slots, before assigning creeps to the next closest spawn.
+    getIdealSourceID: function()
+    {
+        let sources: Source[] = Game.spawns["Spawn1"].room.find(FIND_SOURCES);
+        let sourceID: string = sources[_.random(0,1)].id;
+        return sourceID;
     }
 };

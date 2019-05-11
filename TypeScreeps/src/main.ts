@@ -1,6 +1,7 @@
 var roleHarvester   = require('role.harvester' );
 var roleUpgrader    = require('role.upgrader'  );
 var roleBuilder     = require('role.builder'   );
+var roleRepairer    = require('role.repairer'  );
 var memoryManager   = require("memoryManager"  );
 var spawnManager    = require("spawnManager"   );
 var buildingManager = require("buildingManager");
@@ -13,8 +14,9 @@ export const loop = function ()
     //**************************************************
     // Global Variables
     var totalDesiredHarvesters    = 2;
-    var totalDesiredBuilders      = 2;
-    var totalDesiredUpgraders     = 2;
+    var totalDesiredBuilders      = 1;
+    var totalDesiredRepairers     = 0;
+    var totalDesiredUpgraders     = 1;
 
 
 
@@ -58,10 +60,7 @@ export const loop = function ()
     {
         for(var j in Game.creeps)
         {
-            if(Game.creeps[j].memory.renewing)
-            {
-                (<StructureSpawn>spawns[i]).renewCreep(Game.creeps[j]);
-            }
+            (<StructureSpawn>spawns[i]).renewCreep(Game.creeps[j]);
         }
 
     }
@@ -71,6 +70,7 @@ export const loop = function ()
     // Auto spawn Creeps
     var harvesters    = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester'   );
     var builders      = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder'     );
+    var repairers     = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer'    );
     var upgraders     = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader'    );
     //console.log('Harvesters: ' + harvesters.length);
     //console.log('Builders: '   + builders.length  );
@@ -87,6 +87,11 @@ export const loop = function ()
     if(builders.length < totalDesiredBuilders && harvesters.length >= totalDesiredHarvesters)
     {
         spawnManager.spawnUnit("Builder");
+    }
+
+    if(repairers.length < totalDesiredRepairers && harvesters.length >= totalDesiredHarvesters && builders.length >= totalDesiredBuilders)
+    {
+        spawnManager.spawnUnit("Repairer");
     }
 
     if(upgraders.length < totalDesiredUpgraders && harvesters.length >= totalDesiredHarvesters && builders.length >= totalDesiredBuilders)
@@ -119,6 +124,10 @@ export const loop = function ()
         if(creep.memory.role == 'builder')
         {
             roleBuilder.run(creep);
+        }
+        if(creep.memory.role == 'repairer')
+        {
+            roleRepairer.run(creep);
         }
     }
 }
