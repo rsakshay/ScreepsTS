@@ -13,7 +13,7 @@ module.exports = {
     updateBuildings: function()
     {
         var buildingManager = require("buildingManager");
-        Memory.shouldBuildRoads = buildingManager.getBuildingsHaveChanged();
+        // Memory.shouldBuildRoads = buildingManager.getBuildingsHaveChanged();
 
         if(Memory.shouldBuildRoads == true)
         {
