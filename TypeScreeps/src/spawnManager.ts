@@ -10,10 +10,10 @@
 class unitTemplate
 {
     name: string;
-    body: string[];
+    body: BodyPartConstant[];
     requiredEnergy: number;
 
-    constructor( name: string, body: string[], requiredEnergy:number ) {
+    constructor( name: string, body: BodyPartConstant[], requiredEnergy:number ) {
         this.name           = name;
         this.body           = body;
         this.requiredEnergy = requiredEnergy;
