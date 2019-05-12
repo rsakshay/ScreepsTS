@@ -10,9 +10,9 @@
 module.exports = {
 
     // Returns held energy to a spawn, extension, or tower
-    returnEnergy: function(creep)
+    returnEnergy: function(creep: Creep)
     {
-        var targets = creep.room.find(FIND_STRUCTURES, {
+        let targets: Structure[] = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) =>
                 {
                     return (structure.structureType == STRUCTURE_SPAWN ||
@@ -22,6 +22,8 @@ module.exports = {
         });
         if(targets.length > 0)
         {
+            targets.sort( (a, b) => (PathFinder.search(creep.pos, a.pos).path.length) - (PathFinder.search(creep.pos, b.pos).path.length) );
+
             if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE)
             {
                 creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
@@ -64,7 +66,6 @@ module.exports = {
         {
             creep.moveTo(structure, {visualizePathStyle: {stroke: '#ffffff'}});
         }
-
     },
 
     awaitRenewing: function(creep: Creep, desiredTicks: number)
